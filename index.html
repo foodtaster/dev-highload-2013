@@ -35,7 +35,7 @@
     <div class="reveal">
       <div class="slides">
         <section>
-        <h1>Как правильно готовить вместе с Chef</h1>
+        <h2>Как правильно готовить<br/>вместе с Chef</h2>
         <p>
         <small>Created by <a href="http://github.com/foodtaster">foodtaster</a></small>
         <br/>
@@ -47,8 +47,149 @@
 
         <section data-markdown>
         <script type="text/template">
-          # Chef
-          ## как правильно готовить
+          ## 1: N+1 changes
+
+          * devs
+          * CI
+          * staging
+          * production
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ## 2: Трамвайно - зависимая инфраструктура
+          ![tram](tram.jpg)
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ## Девы пришли к Опсам
+          ### Infrastructure.as_a(Code)
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ![chef](chef.png)
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ## Как устроен chef
+          ![chef](chef-architecture.png)
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ![chef](chef-cloud.png)
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ## Как начать?
+          ![chef](sandbox.jpeg)
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ## Virtualization
+          ![chef](vbox.png)
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ## [Vagrant](http://www.vagrantup.com/)
+
+          ```
+Vagrant::Config.run do |config|
+  config.vm.box = "precise64"
+  config.vm.network :private_network, ip: ip
+
+  config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = ["cookbooks", "site-cookbooks"]
+    chef.add_recipe "pg"
+    chef.json = { :users => ['testuser'] }
+    chef.log_level = :debug
+  end
+end
+          ```
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ## Vagrant CLI
+
+          * vagrant up vm0
+          * vagrant destroy vm0
+          * vagrant ssh vm0
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+         ## TDD & CI
+
+         ![tdd](red-green-refactor.jpg)
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+         ## [Foodtaster](https://github.com/foodtaster)
+
+         ### Chef + Vagrant + Rspec = Foodtaster
+
+         ![foodtaster](foodtaster.png)
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+         ## Test your cookbooks
+         ```
+         describe "nginx::default" do
+           run_chef_on :vm0 do |c|
+             c.json = {}
+             c.add_recipe 'nginx'
+           end
+
+           it "should install nginx as a daemon" do
+             vm0.should have_package 'nginx'
+             vm0.should have_user('www-data').in_group('www-data')
+             vm0.should have_running_process('nginx')
+             vm0.should listen_port(80)
+           end
+         end
+         ```
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+         ## Как это работает?
+
+         * rspec (ruby test library)
+         * foodtaster gem
+         * foodtaster vagrant drb plugin
+         * vagrant
+         * virtual box
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+         ## Links
+
+         * [foodtaster](https://github.com/foodtaster)
+         * [workshop](https://github.com/foodtaster/chef-workshop)
         </script>
         </section>
       </div>
