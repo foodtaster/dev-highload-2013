@@ -25,6 +25,17 @@
     <script>
       document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
     </script>
+    <style>
+      .reveal pre {
+        font-size: 1em;
+        width: 100%;
+        overflow: hidden;
+      }
+      .reveal pre code {
+        max-height: 500px;
+        overflow: hidden;
+      }
+    </style>
 
     <!--[if lt IE 9]>
     <script src="lib/js/html5shiv.js"></script>
@@ -47,8 +58,7 @@
 
         <section data-markdown>
         <script type="text/template">
-          ### Николай Рыжиков - teamlead
-          ### Михаил Лапшин - senior
+          ### Николай Рыжиков & Михаил Лапшин
 
           ![choice.png](choice.png)
 
@@ -174,7 +184,9 @@ end
 
            it "should install nginx as a daemon" do
              vm0.should have_package 'nginx'
-             vm0.should have_user('www-data').in_group('www-data')
+             vm0.should have_user('www-data')
+             .in_group('www-data')
+
              vm0.should have_running_process('nginx')
              vm0.should listen_port(80)
            end
