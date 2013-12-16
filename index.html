@@ -106,6 +106,20 @@
 
         <section data-markdown>
         <script type="text/template">
+          ## Chef run
+
+          * Run as super user
+          * загрузка node attributes
+          * загрузка cookbooks from run_list
+          * вычисление желаемого и текущего состояния
+          * приведение ноды в желаемое состояние
+          * сохранение аттрибутов ноды на сервер
+        </script>
+        </section>
+
+        <section data-markdown>
+        <script type="text/template">
+          ##  Workflow
           ![chef](chef-cloud.png)
         </script>
         </section>
@@ -146,11 +160,12 @@ end
 
         <section data-markdown>
         <script type="text/template">
-          ## Vagrant CLI
+          ## Vagrant & Chef
 
           * vagrant up vm0
-          * vagrant destroy vm0
+          * vagrant provision vm0
           * vagrant ssh vm0
+          * vagrant destroy vm0
         </script>
         </section>
 
